@@ -11,9 +11,9 @@ import json
 from sys import stdout
 
 
+
 def import_Market_Data():
     data = jsc.json_Import_Cur()
-
-    for element in data:
-        for value in data['symbol']:
-            print(data['symbol'])
+    for data_item in data:
+        for key, value in data_item.items():
+            print('key {} value {}').format(key, value)
