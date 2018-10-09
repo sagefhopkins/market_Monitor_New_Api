@@ -11,7 +11,7 @@ import io
 
 #API key GPR3TT0J4AM2EBBQ
 #database.database_Table('ILS')
-config.import_Market_Data()
+config.import_Stock_Market_Data()
 
 #with open('config.ini') as f:
 #    conf = f.read()
