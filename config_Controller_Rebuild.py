@@ -22,14 +22,14 @@ def import_Stock_Market_Data():
             elif key == 'price':
                 price = value
                 print ('Price = {}').format(price)
-                dbc.insert_Stock(ticker, price, time.time())
+                dbc.insert_Stock(ticker, price, time.strftime('%Y-%m-%d %H:%M:%S'))
 
 def import_Currency_Market_Data():
     data = jsc.json_Import_Cur('currency_Market')
     for ticker, price in data['rates'].iteritems():
         print ('Ticker = {}').format(ticker)
         print ('Price = {}').format(price)
-        dbc.insert_Currency(ticker, price, time.time())
+        dbc.insert_Currency(ticker, price, time.strftime('%Y-%m-%d %H:%M:%S'))
 
 def import_Commoditiy_Market_Data():
     data = jsc.json_Import_Cur('commodity_Market')
@@ -56,7 +56,7 @@ def import_Commoditiy_Market_Data():
                 tmp_max = value
                 max = (float(tmp_max)/float(exchange_Rate))
                 print ('Max = {}').format(max)
-                dbc.insert_Commodity(commodity, state, min, med, max, date)
+                dbc.insert_Commodity(commodity, state, min, med, max, time.strftime('%Y-%m-%d %H:%M:%S'))
             elif key == 'modal_price':
                 tmp_med = value
                 med = (float(tmp_med)/float(exchange_Rate))
