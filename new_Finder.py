@@ -17,12 +17,19 @@ def get_Url():
     for links in enumerate(data['results']):
         print links
         print '--------------------------------'
-        link_Data = json.loads(links)
-        for key, value in link_Data.items():
-            print key
-            print '***************************'
+        for key, value in [links]:
+            #This is fucked up right now we need to figure out a way to add double quotations
+            #and replace single quotes without affecting strings which contain them, because
+            #that breaks the string and doesn't allow the json to execute properly
+            final_value = re.sub (r'\'', '\"', str(value))
+            final_final = re.sub(r'u\"', '\"', str(final_value))
+            final_final_final = re.sub(r'(.*)\"s', 'ts', final_final)
+            print final_final_final
+            link_Data = json.loads(final_final_final)
             print value
-
+            #for key, value in link_Data.iteritems():
+                #print key
+                #print value
 
 class NewsSpider(scrapy.Spider):
     name = 'News Spider'
