@@ -1,9 +1,28 @@
-import urllib
+import urllib as url
+import io
 import requests
 import webbrowser
 import re
 import scrapy
+import json
+import json_Controller as jsc
 from scrapy.crawler import CrawlerProcess
+
+#Function is currently broken, have to figure out way to pull json
+#out of the arry that it gets put in when enumerate happens for it to
+#properly process and be useful or we can use regex magic but thats a
+#shit method
+def get_Url():
+    data = jsc.json_Search_Api('snap+stock+news')
+    for links in enumerate(data['results']):
+        print links
+        print '--------------------------------'
+        link_Data = json.loads(links)
+        for key, value in link_Data.items():
+            print key
+            print '***************************'
+            print value
+
 
 class NewsSpider(scrapy.Spider):
     name = 'News Spider'
@@ -19,12 +38,19 @@ class NewsSpider(scrapy.Spider):
 #the program will prompt the user to check them if certainty is under 75% and the use will have the option to either up or down vote the articles. Each of these positive and negative
 #points will factor in for the next month of monthly, weekly and daily, price change predictions
 def search_Url(name):
-    url = 'https://www.google.com/search?q=' + urllib.quote_plus(name)
-    process = CrawlerProcess({
-        'USER_AGENT': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'
-    })
-    process.crawl( NewsSpider, url)
-    process.start()
+    class Spider(scrapy.Spider):
+        name = 'Spider'
+        allow_domains = ['google.com']
+        start_urls = ['https://www.google.com/search?client=ubuntu&channel=fs&ei=7hHIW5nHOoOU8wXq1qTAAQ&q=snap+stock&oq=snap+stock&gs_l=psy-ab.3..35i39k1j0i67k1l2j0l7.454.454.0.788.1.1.0.0.0.0.172.172.0j1.1.0....0...1..64.psy-ab..0.1.171....0.LMlvYhCrofg',]
+
+        def parse(self, response):
+            hxs = scrapy.Selector(response)
+            all_Links = hxs.xpath('*//a/@href').extract()
+            for link in all_Links:
+                yield scrapy.http.Request(url=link, callback=print_this_link)
+
+        def print_this_link(self, link):
+            print 'Link Extracted! : {0}'.format(link)
 
 
 """

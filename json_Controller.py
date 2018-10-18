@@ -43,3 +43,17 @@ def json_Import_Cur(type):
         except ValueError:
             print response
             time.sleep(20)
+
+
+def json_Search_Api(search):
+    try:
+        api_Url = ('https://www.gigablast.com/search?q={0}&userid=199&code=1015035357&format=json').format(search)
+        response = url.urlopen(api_Url)
+        data = json.loads(response.read())
+        return data
+    except IOError:
+        print 'Issue encountered on json_Import_Cur'
+        time.sleep(20)
+    except ValueError:
+        print response
+        time.sleep(20)
