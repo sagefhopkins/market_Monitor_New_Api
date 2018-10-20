@@ -8,6 +8,14 @@ import json
 import json_Controller as jsc
 from scrapy.crawler import CrawlerProcess
 
+def get_Url():
+    data = jsc.json_Search_Api('snap+stock+news')
+    for links in data['results']:
+        print 'title: ', links['title']
+        print 'description: ', links['sum']
+        print 'link: ', links['url']
+        print '-----------------------------'
+"""
 #Function is currently broken, have to figure out way to pull json
 #out of the arry that it gets put in when enumerate happens for it to
 #properly process and be useful or we can use regex magic but thats a
@@ -30,6 +38,7 @@ def get_Url():
             #for key, value in link_Data.iteritems():
                 #print key
                 #print value
+"""
 
 class NewsSpider(scrapy.Spider):
     name = 'News Spider'
