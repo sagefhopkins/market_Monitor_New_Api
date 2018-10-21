@@ -1,18 +1,30 @@
 {
   "positive": [
-    "profits", 
-    "buy", 
-    "buying", 
-    "skyrockets"
-  ], 
+    "profits",
+    "buy",
+    "buying",
+    "skyrockets",
+    "improved",
+    "improve",
+    "up"
+  ],
   "neutral": [
     "business"
-  ], 
+  ],
   "negative": [
-    "compensation", 
-    "bad", 
-    "down", 
-    "drop", 
-    "plunged"
+    "compensation",
+    "bad",
+    "down",
+    "drop",
+    "plunged",
+    "tanked",
+    "dropped",
+    "low",
+    "crashed",
+    "fall",
+    "fell",
+    "falls",
+    "lost",
+    "dropped"
   ]
 }
