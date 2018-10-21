@@ -8,37 +8,62 @@ import json
 import json_Controller as jsc
 from scrapy.crawler import CrawlerProcess
 
-def get_Url():
-    data = jsc.json_Search_Api('snap+stock+news')
+# NOTE:
+#   the data format is category: [ keyword1, keyword2, ... ]
+#   in python its a dictionary key that corresponds to a list of keywords
+with open('keywords.json', 'rb') as f:
+    KEYWORDS = json.load(f)
+
+# Percentage of words that have to match for it to catch it
+# Category specific for now
+THRESHOLD = 0.25
+
+def keyword_Search(string, regex):
+
+    matches = re.findall(regex, string)
+
+    if not matches:
+        return False
+
+    counter = float(len(matches))
+    length = float(len(string.split()))
+    percent = counter / length
+
+    print matches
+    print counter
+    print length
+    print percent
+
+    if percent >=  THRESHOLD:
+        return True
+    else:
+        return False
+
+def get_Url(source='api'):
+    if source == 'api':
+        data = jsc.json_Search_Api('snap+stock+news')
+    else:
+        with open(source, 'rb') as f:
+            data = json.load(f)
+
+    relevant_links = { 'positive': [], 'negative': [] }
+
+    category_regexes = {}
+
+    for category in KEYWORDS.iterkeys():
+        category_regexes[category] = re.compile('(' + r'\b|\b'.join(KEYWORDS[category]) + ')')
+
     for links in data['results']:
         print 'title: ', links['title']
         print 'description: ', links['sum']
         print 'link: ', links['url']
         print '-----------------------------'
-"""
-#Function is currently broken, have to figure out way to pull json
-#out of the arry that it gets put in when enumerate happens for it to
-#properly process and be useful or we can use regex magic but thats a
-#shit method
-def get_Url():
-    data = jsc.json_Search_Api('snap+stock+news')
-    for links in enumerate(data['results']):
-        print links
-        print '--------------------------------'
-        for key, value in [links]:
-            #This is fucked up right now we need to figure out a way to add double quotations
-            #and replace single quotes without affecting strings which contain them, because
-            #that breaks the string and doesn't allow the json to execute properly
-            final_value = re.sub (r'\'', '\"', str(value))
-            final_final = re.sub(r'u\"', '\"', str(final_value))
-            final_final_final = re.sub(r'(.*)\"s', 'ts', final_final)
-            print final_final_final
-            link_Data = json.loads(final_final_final)
-            print value
-            #for key, value in link_Data.iteritems():
-                #print key
-                #print value
-"""
+
+        for category in KEYWORDS.iterkeys():
+            if keyword_Search(links['title'] + ' ' + links['sum'], category_regexes[category]):
+                relevant_links[category].append(links['url'])
+
+    return relevant_links
 
 class NewsSpider(scrapy.Spider):
     name = 'News Spider'
@@ -67,25 +92,3 @@ def search_Url(name):
 
         def print_this_link(self, link):
             print 'Link Extracted! : {0}'.format(link)
-
-
-"""
-def search_Url(name):
-    name = urllib.quote_plus(name)
-    search = 'https://www.google.com/search?q=' + name
-    url_Search = requests.get(search)
-    print search
-    soup = BeautifulSoup(url_Search.text)
-    num = 1
-    arr = []
-
-#This formats the urls so they are complete, however after each is generated we need to ensure only the second value is the list create is taken because that is the real url, the other one
-#is a google cache and is not helpful
-    for link in  soup.find_all("a",href=re.compile("(?<=/url\?q=)(htt.*://.*)")):
-        result = re.split(":(?=http)",link["href"].replace("/url?q=",""))
-        #final = re.search(r'\'(.*)\', \'(.*?)\'', str(result), '')
-        #print final.result(1)
-        arr.insert(num ,result)
-        num = num + 1
-    print 'Array Number 10' + str(arr[10])
-"""

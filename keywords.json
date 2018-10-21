@@ -1,0 +1,18 @@
+{
+  "positive": [
+    "profits", 
+    "buy", 
+    "buying", 
+    "skyrockets"
+  ], 
+  "neutral": [
+    "business"
+  ], 
+  "negative": [
+    "compensation", 
+    "bad", 
+    "down", 
+    "drop", 
+    "plunged"
+  ]
+}
