@@ -19,6 +19,12 @@ def checkTableExists(tablename):
 
 #Creates new tables into the database, this will always use the same format
 #to ensure uniformity between tables
+def database_Table_News(stock):
+    sql = database_Connect()
+    cur = sql.cursor()
+    query = "CREATE TABLE `{0}` (`keyword_Matches` text, `percentage` float, `title` text, `description` text, `url` text, `date` date)".format(stock)
+    cur.execute(query)
+    print (stock + '_News_Data table crated!')
 def database_Table_Commodity(name):
     sql = database_Connect()
     cur = sql.cursor()
@@ -39,13 +45,33 @@ def database_Table_Stock(name):
     cur.execute(query)
     print (name + '_Stock table created!')
 
+def insert_News(stock ,keyword_Matches, percentage, title, description, url, time):
+    try:
+        if checkTableExists(stock + '_News_Data') != False:
+            sql = database_Connect()
+            cur = sql.cursor()
+            query = "INSERT INTO `{0}` VALUES(%s, %s, %s, %s, %s, %s)".format(stock + '_News_Data')
+            cur.execute(query, (keyword_Matches, percentage, title, description, url, time))
+            print '1'
+            print (keyword_Matches, percentage, title, description, url, time)
+        else:
+            sql = database_Connect()
+            cur = sql.cursor()
+            database_Table_News(stock + '_News_Data')
+            query = "INSERT INTO `{0}` VALUES(%s, %s, %s, %s, %s, %s)".format(stock + '_News_Data')
+            print (keyword_Matches, percentage, title, description, url, time)
+            cur.execute(query, (keyword_Matches, percentage, title, description, url, time))
+            print '2'
+    except TypeError:
+        pass
 def insert_Currency(ticker, price, time):
     try:
         if checkTableExists(ticker + '_Currency') != False:
             sql = database_Connect()
             cur = sql.cursor()
             query = "INSERT INTO `{0}` VALUES(%s, %s, %s)".format(ticker + '_Currency')
-            cur.execute(query, (ticker, price, time))
+            cur.execute(query, (ticker, price, time))\
+
         else:
             sql = database_Connect()
             cur = sql.cursor()

@@ -1,10 +1,12 @@
 import urllib as url
 import io
+import time
 import requests
 import webbrowser
 import re
 import scrapy
 import json
+import database_Controller as dbc
 import json_Controller as jsc
 from scrapy.crawler import CrawlerProcess
 
@@ -16,11 +18,12 @@ with open('keywords.json', 'rb') as f:
 
 # Percentage of words that have to match for it to catch it
 # Category specific for now
-THRESHOLD = 0.25
+THRESHOLD = 0.02
 
-def keyword_Search(string, regex):
+def keyword_Search(string, regex, title, description, url):
 
     matches = re.findall(regex, string)
+    arr = []
 
     if not matches:
         return False
@@ -33,9 +36,14 @@ def keyword_Search(string, regex):
     print counter
     print length
     print percent
+    arr.insert(0, matches)
+    arr.insert(1, percent)
+    arr.insert(2, title)
+    arr.insert(3, description)
+    arr.insert(4, url)
 
     if percent >=  THRESHOLD:
-        return True
+        return arr
     else:
         return False
 
@@ -54,16 +62,24 @@ def get_Url(stock, source='api'):
         category_regexes[category] = re.compile('(' + r'\b|\b'.join(KEYWORDS[category]) + ')')
 
     for links in data['results']:
+        print '-----------------------------'
         print 'title: ', links['title']
         print 'description: ', links['sum']
         print 'link: ', links['url']
         print '-----------------------------'
 
         for category in KEYWORDS.iterkeys():
-            if keyword_Search(links['title'] + ' ' + links['sum'], category_regexes[category]):
-                relevant_links[category].append(links['url'])
+            search = keyword_Search(links['title'] + ' ' + links['sum'], category_regexes[category], links['title'], links['sum'], links['url'])
+            if search != False:
+                print '-----------% RESULT %--------------'
+                print 'Matching words: {}'.format(search[0])
+                print 'Percentage of matching keywords: {}%'.format(float(search[1])*100)
+                print 'Title of Article: {}'.format(search[2])
+                print 'Description of Article: {}'.format(search[3])
+                print 'Url to Article: '.format(search[4])
 
-    return relevant_links
+                dbc.insert_News(stock, str(search[0]), float(search[1]), str(search[2]), str(search[3]), str(search[4]), time.strftime('%Y-%m-%d %H:%M:%S'))
+
 
 class NewsSpider(scrapy.Spider):
     name = 'News Spider'

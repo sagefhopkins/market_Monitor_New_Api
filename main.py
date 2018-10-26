@@ -9,7 +9,7 @@ import new_Finder as news
 #import config_Controller as config
 
 #database.database_Read('gear', 'B')
-news.get_Url('stock+market+down')
+news.get_Url('ZX')
 #API key GPR3TT0J4AM2EBBQ
 #database.database_Table('ILS')
 #config.import_Currency_Market_Data()
