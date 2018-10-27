@@ -1,1 +1,1 @@
-#Stock Market, Commodity Data, Currency Data, Stock Market News Tracker all in one
+Stock Market, Commodity Data, Currency Data, Stock Market News Tracker all in one
