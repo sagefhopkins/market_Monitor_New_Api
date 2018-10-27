@@ -22,96 +22,100 @@ def checkTableExists(tablename):
 def database_Table_News(stock):
     sql = database_Connect()
     cur = sql.cursor()
-    query = "CREATE TABLE `{0}` (`keyword_Matches` text, `percentage` float, `title` text, `description` text, `url` text, `date` date)".format(stock)
+    query = "CREATE TABLE `News_Data` (`stock` text,`keyword_Matches` text, `percentage` float, `title` text, `description` text, `url` text, `date` timestamp)"
     cur.execute(query)
-    print (stock + '_News_Data table crated!')
+    print ('Stock Market News Table Generated!')
 def database_Table_Commodity(name):
     sql = database_Connect()
     cur = sql.cursor()
-    query = "CREATE TABLE `{0}` (`commodity` text, `state` text, `min` float, `med` float, `max` float, `date` date)".format(name)
-    cur.execute(query)
-    print (name + '_Commodity table created!')
+    query = "CREATE TABLE `Commodity_Data` (`commodity` text, `state` text, `min` float, `med` float, `max` float, `date` timestamp)"
+    print ('Commodity Market Data Table Generated!')
 def database_Table_Currency(name):
     sql = database_Connect()
     cur = sql.cursor()
-    query = "CREATE TABLE `{0}` (`ticker` text, `price` float, `time` timestamp)".format(name)
+    query = "CREATE TABLE `Currency_Data` (`ticker` text, `price` float, `date` timestamp)"
     cur.execute(query)
-    print (name + '_Currency table created!')
+    print ('Currency Market Data Table Generated!')
 
 def database_Table_Stock(name):
     sql = database_Connect()
     cur = sql.cursor()
-    query = "CREATE TABLE `{0}` (`ticker` text, `price` float, `time` timestamp)".format(name)
+    query = "CREATE TABLE `Stock_Data` (`ticker` text, `price` float, `date` timestamp)"
     cur.execute(query)
-    print (name + '_Stock table created!')
+    print ('Stock Market Data Table Generated!')
 
 def insert_News(stock ,keyword_Matches, percentage, title, description, url, time):
     try:
-        if checkTableExists(stock + '_News_Data') != False:
+        if checkTableExists('News_Data') != False:
+
             sql = database_Connect()
             cur = sql.cursor()
-            query = "INSERT INTO `{0}` VALUES(%s, %s, %s, %s, %s, %s)".format(stock + '_News_Data')
-            cur.execute(query, (keyword_Matches, percentage, title, description, url, time))
-            print '1'
-            print (keyword_Matches, percentage, title, description, url, time)
+            query = "INSERT INTO `News_Data` (`stock`, `keyword_Matches`, `percentage`, `title`, `description`, `url`, `date`) VALUES(%s, %s, %s, %s, %s, %s, %s);"
+            cur.execute(query, (stock, str(keyword_Matches), float(percentage), str(title), str(description), str(url), time))
+            sql.commit()
         else:
             sql = database_Connect()
             cur = sql.cursor()
-            database_Table_News(stock + '_News_Data')
-            query = "INSERT INTO `{0}` VALUES(%s, %s, %s, %s, %s, %s)".format(stock + '_News_Data')
-            print (keyword_Matches, percentage, title, description, url, time)
-            cur.execute(query, (keyword_Matches, percentage, title, description, url, time))
-            print '2'
-    except TypeError:
+            database_Table_News('News_Data')
+            query = "INSERT INTO `News_Data` VALUES(%s, %s, %s, %s, %s, %s, %s);"
+            cur.execute(query, (stock, str(keyword_Matches), float(percentage), str(title), str(description), str(url), time))
+            sql.commit()
+    except UnicodeEncodeError:
         pass
 def insert_Currency(ticker, price, time):
     try:
-        if checkTableExists(ticker + '_Currency') != False:
+        if checkTableExists('Currency_Data') != False:
             sql = database_Connect()
             cur = sql.cursor()
-            query = "INSERT INTO `{0}` VALUES(%s, %s, %s)".format(ticker + '_Currency')
-            cur.execute(query, (ticker, price, time))\
+            query = "INSERT INTO `Currency_Data` VALUES(%s, %s, %s);"
+            cur.execute(query, (ticker, price, time))
+            sql.commit()
 
         else:
             sql = database_Connect()
             cur = sql.cursor()
-            database_Table_Currency(ticker + '_Currency')
-            query = "INSERT INTO `{0}` VALUES(%s, %s, %s)".format(ticker + '_Currency')
+            database_Table_Currency('Currency_Data')
+            query = "INSERT INTO `Currency_Data` VALUES(%s, %s, %s);"
             cur.execute(query, (ticker, price, time))
+            sql.commit()
     except():
         pass
         print 'Error occurred databasing!'
 def insert_Commodity(commodity, state, min, med, max, date):
     try:
-        if checkTableExists(commodity + '_Commodity') != False:
+        if checkTableExists('Commodity_Data') != False:
             sql = database_Connect()
             cur = sql.cursor()
-            query = "INSERT INTO `{0}` VALUES (%s, %s, %s, %s, %s, %s)".format(commodity + '_Commodity')
+            query = "INSERT INTO `Commodity_Data` VALUES (%s, %s, %s, %s, %s, %s);"
             cur.execute(query, (commodity, state, min, med, max, date))
+            sql.commit()
         else:
             sql = database_Connect()
             cur = sql.cursor()
-            database_Table_Commodity(commodity + '_Commodity')
-            query = "INSERT INTO `{0}` VALUES(%s, %s, %s, %s ,%s ,%s)".format(commodity + '_Commodity')
+            database_Table_Commodity('Commodity_Data')
+            query = "INSERT INTO `Commodity_Data` VALUES(%s, %s, %s, %s ,%s ,%s);"
             cur.execute(query, (commodity, state, min, med, max, date))
+            sql.commit()
     except():
         pass
         print 'Error Occurred databasing!'
 
 def insert_Stock(ticker, price, time):
     try:
-        if checkTableExists(ticker + '_Stock') != False:
+        if checkTableExists('Stock_Data') != False:
             sql = database_Connect()
             cur = sql.cursor()
-            query = "INSERT INTO `{0}` VALUES(%s, %s,%s);".format(ticker + '_Stock')
+            query = "INSERT INTO `Stock_Data` VALUES(%s, %s,%s);"
             print query
             cur.execute(query,(ticker, price, time))
+            sql.commit()
         else:
             sql = database_Connect()
             cur = sql.cursor()
-            database_Table_Stock(ticker + '_Stock')
-            query = "INSERT INTO `{0}` VALUES(%s, %s,%s);".format(ticker + '_Stock')
+            database_Table_Stock('Stock_Data')
+            query = "INSERT INTO `Stock_Data` VALUES(%s, %s,%s);"
             cur.execute(query, (ticker, price, time))
+            sql.commit()
     except():
         pass
         print 'Error occurred databasing!'
@@ -121,7 +125,7 @@ def insert_Stock(ticker, price, time):
 def database_Read(table, currency):
     sql = database_Connect()
     cur = sql.cursor()
-    query = "SELECT * FROM " + table + " WHERE currency LIKE '" + currency + "%'"
+    query = "SELECT * FROM `Currency_Data` WHERE currency LIKE '" + currency + "%'"
     for row in cur.execute(query):
         return row
 

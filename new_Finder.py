@@ -8,6 +8,7 @@ import scrapy
 import json
 import database_Controller as dbc
 import json_Controller as jsc
+from django.utils.encoding import smart_str, smart_unicode
 from scrapy.crawler import CrawlerProcess
 
 # NOTE:
@@ -15,6 +16,8 @@ from scrapy.crawler import CrawlerProcess
 #   in python its a dictionary key that corresponds to a list of keywords
 with open('keywords.json', 'rb') as f:
     KEYWORDS = json.load(f)
+with open('stock_News_Search_List.json', 'rb') as f:
+    STOCKLIST = json.load(f)
 
 # Percentage of words that have to match for it to catch it
 # Category specific for now
@@ -31,11 +34,7 @@ def keyword_Search(string, regex, title, description, url):
     counter = float(len(matches))
     length = float(len(string.split()))
     percent = counter / length
-
-    print matches
-    print counter
-    print length
-    print percent
+    matches = smart_str(matches)
     arr.insert(0, matches)
     arr.insert(1, percent)
     arr.insert(2, title)
@@ -62,24 +61,16 @@ def get_Url(stock, source='api'):
         category_regexes[category] = re.compile('(' + r'\b|\b'.join(KEYWORDS[category]) + ')')
 
     for links in data['results']:
-        print '-----------------------------'
-        print 'title: ', links['title']
-        print 'description: ', links['sum']
-        print 'link: ', links['url']
-        print '-----------------------------'
-
         for category in KEYWORDS.iterkeys():
-            search = keyword_Search(links['title'] + ' ' + links['sum'], category_regexes[category], links['title'], links['sum'], links['url'])
-            if search != False:
-                print '-----------% RESULT %--------------'
-                print 'Matching words: {}'.format(search[0])
-                print 'Percentage of matching keywords: {}%'.format(float(search[1])*100)
-                print 'Title of Article: {}'.format(search[2])
-                print 'Description of Article: {}'.format(search[3])
-                print 'Url to Article: '.format(search[4])
-
-                dbc.insert_News(stock, str(search[0]), float(search[1]), str(search[2]), str(search[3]), str(search[4]), time.strftime('%Y-%m-%d %H:%M:%S'))
-
+            data_Results = keyword_Search(links['title'] + ' ' + links['sum'], category_regexes[category], links['title'], links['sum'], links['url'])
+            if data_Results != False:
+                dbc.insert_News(stock, data_Results[0], data_Results[1], data_Results[2], data_Results[3], data_Results[4], time.strftime('%Y-%m-%d %H:%M:%S'))
+                print 'New Article Databased!'
+def search_List():
+    for key in STOCKLIST['Stocks']:
+        print 'Databasing Information for stock: % {} %'.format(key)
+        print '%**************************************************%'
+        get_Url(key)
 
 class NewsSpider(scrapy.Spider):
     name = 'News Spider'
