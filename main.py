@@ -9,12 +9,12 @@ import new_Finder as news
 #import config_Controller as config
 
 #database.database_Read('gear', 'B')
-news.search_List()
+#news.search_List()
 #API key GPR3TT0J4AM2EBBQ
 #database.database_Table('ILS')
 #config.import_Currency_Market_Data()
 #news.search_Url('SNAP Stock News')
-#config.import_Currency_Market_Data()
+config.import_Commoditiy_Market_Data()
 #with open('config.ini') as f:
 #    conf = f.read()
 #    config = ConfigParser.RawConfigParser(allow_no_value=True)

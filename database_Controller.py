@@ -29,6 +29,7 @@ def database_Table_Commodity(name):
     sql = database_Connect()
     cur = sql.cursor()
     query = "CREATE TABLE `Commodity_Data` (`commodity` text, `state` text, `min` float, `med` float, `max` float, `date` timestamp)"
+    cur.execute(query)
     print ('Commodity Market Data Table Generated!')
 def database_Table_Currency(name):
     sql = database_Connect()
