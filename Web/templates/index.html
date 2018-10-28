@@ -10,7 +10,14 @@
 <div class="main">
   <div class="top">TOP</div>
   <div class="left">LEFT</div>
-  <div class="right">MAIN</div>
+  <div class="right">
+    MAIN
+    <h2>Commodity search<h2>
+    <form action="/commodities" method="POST">
+      <p>Commodity: <input type="text" name="query"></p>
+      <input type="submit" value="Submit">
+    </form>
+  </div>
   <div class="clear"></div>
 </div>
 </header>
