@@ -21,6 +21,7 @@ def index():
 
 @app.route('/commodities', methods=['GET', 'POST'])
 @app.route('/currency', methods=['GET', 'POST'])
+@app.route('/news', methods=['GET', 'POST'])
 
 
 def contact():
@@ -51,12 +52,12 @@ def currency_all():
     else:
         return redirect(url_for('currency', query = enc('.*')))
 """
-@app.route('/news/')
+@app.route('/news/<query>')
 def news(query):
     query =dec(query)
     cursor = db.cursor()
-    sql = "SELECT * FROM News_Data WHERE stock REGEXP %s"
-    cursor.execute(sql, (query,))
+    sql = "SELECT * FROM News_Data"
+    cursor.execute(sql)
     results = cursor.fetchall()
     return render_template('news.html', results=results)
 
