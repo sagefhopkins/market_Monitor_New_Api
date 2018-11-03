@@ -23,6 +23,17 @@ def index():
 @app.route('/currency', methods=['GET', 'POST'])
 
 
+def contact():
+    if request.method == 'POST':
+        if request.form['action'] == 'currency':
+            form = request.form
+            return redirect(url_for('currency', query = enc(form['query_currency'])))
+        elif request.form['action'] == 'commodities':
+            form = request.form
+            return redirect(url_for('commodities', query = enc(form['query_commodities'])))
+
+
+"""
 def commodities_all():
 
     if request.form['action'] == 'commodities':
@@ -37,7 +48,7 @@ def currency_all():
         return redirect(url_for('currency', query = enc(form['query'])))
     else:
         return redirect(url_for('currency', query = enc('.*')))
-
+"""
 
 @app.route('/currency/<query>/')
 def currency(query):
