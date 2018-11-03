@@ -18,9 +18,9 @@ db = mysql.connector.connect(host='107.181.191.59',
 @app.route('/')
 def index():
     return render_template('index.html')
-
-@app.route('/commodities', methods=['GET', 'POST'])
 @app.route('/currency', methods=['GET', 'POST'])
+#@app.route('/commodities', methods=['GET', 'POST'])
+
 
 
 def commodities_all():
