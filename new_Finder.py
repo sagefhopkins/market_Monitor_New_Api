@@ -48,7 +48,7 @@ def keyword_Search(string, regex, title, description, url):
 
 def get_Url(stock, source='api'):
     if source == 'api':
-        data = jsc.json_Search_Api('{0}+stock+news'.format(stock))
+        data = jsc.json_Search_Api('{0}'.format(stock))
     else:
         with open(source, 'rb') as f:
             data = json.load(f)
