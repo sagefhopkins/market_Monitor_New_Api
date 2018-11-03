@@ -30,6 +30,15 @@ def commodities_all():
         return redirect(url_for('commodities', query = enc(form['query'])))
     else:
         return redirect(url_for('commodities', query = enc('.*')))
+
+def currency_all():
+    if request.method == 'POST':
+        form = request.form
+        return redirect(url_for('currency', query = enc(form['query'])))
+    else:
+        return redirect(url_for('currency', query = enc('.*')))
+
+
 @app.route('/currency/<query>/')
 def currency(query):
     query =dec(query)
