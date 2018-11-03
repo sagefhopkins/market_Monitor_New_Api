@@ -25,14 +25,14 @@ def index():
 
 def commodities_all():
 
-    if request.method == 'POST':
+    if request.form.post['action'] == 'commodities':
         form = request.form
         return redirect(url_for('commodities', query = enc(form['query'])))
     else:
         return redirect(url_for('commodities', query = enc('.*')))
 
 def currency_all():
-    if request.method == 'POST':
+    if request.form.post['action'] == 'currency':
         form = request.form
         return redirect(url_for('currency', query = enc(form['query'])))
     else:
