@@ -58,7 +58,7 @@ def currency(query):
     sql = "SELECT * FROM News_Data WHERE stock REGEXP %s"
     cursor.execute(sql, (query,))
     results = cursor.fetchall()
-    return render_template('currency.html', results=results)
+    return render_template('news.html', results=results)
 
 @app.route('/currency/<query>/')
 def currency(query):
