@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<title>Market Monitor</title>
+<link rel=stylesheet href="{{ url_for('static', filename='market.css') }}">
+</head>
+<body>
+<!--
+<div class="main">
+  <div class="top">TOP</div>
+  <div class="left">LEFT</div>
+  <div class="right">MAIN</div>
+  <div class="clear"></div>
+</div>
+--!>
+
+<div class="main">
+<div class="top">
+<h1>Commodities</h1>
+</div>
+
+<div class="left">
+<h1 id=logo>&nbsp;
+ <a href=./>
+	 <img src="{{ url_for('static', filename='racewar.png') }}" width="240px" height="84px">
+ </a>
+</h1>
+<p></p>
+<ul id=nav>
+  <li><a href="./">Home</a></li>
+  <li><a href="/commodities">Commodities</a></li>
+  <li><a href="/currency">Currency</a></li>
+  <li><a href="/news">News</a></li>
+</ul>
+<p></p>
+</div>
+
+<div class="right">
+<section>
+<table>
+<tr>
+  <th>Name</th>
+  <th>State</th>
+  <th>Minimum</th>
+  <th>Medium</th>
+  <th>Maximum</th>
+  <th>Date</th>
+</tr>
+{% for row in results %}
+  <tr>
+    {% for elem in row %}
+    <td>{{ elem }}</td>
+    {% endfor %}
+  </tr>
+{% endfor %}
+</table>
+</div>
+
+</section>
+</div>
+</body>
+</html>
