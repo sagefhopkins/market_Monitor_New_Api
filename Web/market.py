@@ -52,7 +52,7 @@ def currency_all():
         return redirect(url_for('currency', query = enc('.*')))
 """
 @app.route('/news/<query>/')
-def currency(query):
+def news(query):
     query =dec(query)
     cursor = db.cursor()
     sql = "SELECT * FROM News_Data WHERE stock REGEXP %s"
