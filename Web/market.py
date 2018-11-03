@@ -51,7 +51,7 @@ def currency_all():
     else:
         return redirect(url_for('currency', query = enc('.*')))
 """
-@app.route('/news/<query>/')
+@app.route('/news/')
 def news(query):
     query =dec(query)
     cursor = db.cursor()
