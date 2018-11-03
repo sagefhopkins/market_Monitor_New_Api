@@ -18,9 +18,9 @@ db = mysql.connector.connect(host='107.181.191.59',
 @app.route('/')
 def index():
     return render_template('index.html')
-@app.route('/currency', methods=['GET', 'POST'])
-#@app.route('/commodities', methods=['GET', 'POST'])
 
+@app.route('/commodities', methods=['GET', 'POST'])
+@app.route('/currency', methods=['GET', 'POST'])
 
 
 def commodities_all():
@@ -48,14 +48,14 @@ def commodities(query):
     results = cursor.fetchall()
     return render_template('commodities.html', results=results)
 
-@app.route('/currency')
-def currency():
-    query = dec(query)
-    cursor = db.cursor()
-    sql = "SELECT * FROM Currency_Data WHERE ticker REGEXP %s"
-    cursor.execute(sql, (query, ))
-    results = cursor.fetchall()
-    return render_template('currency.html', results=results)
+#@app.route('/currency')
+#def currency():
+    #query = dec(query)
+    #cursor = db.cursor()
+    #sql = "SELECT * FROM Currency_Data WHERE ticker REGEXP %s"
+    #cursor.execute(sql, (query, ))
+    #results = cursor.fetchall()
+    #return render_template('currency.html', results=results)
 
 @app.route('/news')
 def news():
