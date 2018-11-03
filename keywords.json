@@ -7,7 +7,12 @@
     "improved",
     "improve",
     "up",
-    "good"
+    "good",
+    "growth",
+    "increased",
+    "stable",
+    "growing",
+    "grow"
   ],
   "neutral": [
     "business"
@@ -30,6 +35,7 @@
     "recession",
     "crash",
     "dead",
-    "stagnate"
+    "stagnate",
+    "bubble"
   ]
 }
