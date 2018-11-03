@@ -20,6 +20,9 @@ def index():
     return render_template('index.html')
 
 @app.route('/commodities', methods=['GET', 'POST'])
+@app.route('/currency', methods=['GET', 'POST'])
+
+
 def commodities_all():
 
     if request.method == 'POST':
@@ -27,6 +30,14 @@ def commodities_all():
         return redirect(url_for('commodities', query = enc(form['query'])))
     else:
         return redirect(url_for('commodities', query = enc('.*')))
+@app.route('/currency/<query>/')
+def currency(query):
+    query =dec(query)
+    cursor = db.cursor()
+    sql = "SELECT * FROM Currency_Data WHERE ticker REGEXP %s"
+    cursor.execute(sql, (query,))
+    results = cursor.fetchall()
+    return render_template('currency.html', results=results)
 
 @app.route('/commodities/<query>/')
 def commodities(query):
