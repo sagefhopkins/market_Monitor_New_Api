@@ -12,7 +12,9 @@
     "increased",
     "stable",
     "growing",
-    "grow"
+    "grow",
+    "rallied",
+    "rally"
   ],
   "neutral": [
     "business"
@@ -36,6 +38,10 @@
     "crash",
     "dead",
     "stagnate",
-    "bubble"
+    "bubble",
+    "weak",
+    "weaker",
+    "weakening",
+    "weakened"
   ]
 }
