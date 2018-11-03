@@ -31,6 +31,8 @@ def contact():
         elif request.form['action'] == 'commodities':
             form = request.form
             return redirect(url_for('commodities', query = enc(form['query_commodities'])))
+        elif request.form['action'] == 'news':
+            return redirect(url_for('news', query = enc('.*')))
 
 
 """
