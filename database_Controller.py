@@ -2,7 +2,7 @@ import mysql.connector
 
 #Initializes database connection and returns connection to function caller
 def database_Connect():
-    connection = mysql.connector.connect(host='107.181.191.59', user='root', passwd='P@$$06281a', database='cur_Monitor')
+    connection = mysql.connector.connect(host='nope', user='nope', passwd='nope', database='cur_Monitor')
 
     return connection
 
