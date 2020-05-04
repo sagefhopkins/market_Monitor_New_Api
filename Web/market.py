@@ -1,5 +1,6 @@
 #!/usr/bin/env python2
 
+
 from flask import Flask, render_template, redirect, url_for, request
 import mysql.connector
 from base64 import b64encode as enc
